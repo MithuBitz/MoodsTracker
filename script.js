@@ -8,7 +8,7 @@ const moodContainerElement = document.getElementById("mood-container");
 const moodSubmitBtn = document.getElementById("submitMoodBtn");
 const todayMoodElement = document.getElementById("today-mood");
 
-const allMoodsGrid = document.getElementById("moods-cards");
+const allMoodsGrid = document.getElementById("all-modes");
 
 //User can select or checked only one mood for submit
 //When happy is checked
@@ -92,8 +92,9 @@ function addItemToGrid(moodText, imgPath, myDate) {
   divElement.appendChild(pTag);
   divElement.classList.add("grid-items");
   // console.log(divElement);
+  // document.getElementById("all-modes").appendChild(divElement);
 
-  document.getElementById("all-modes").appendChild(divElement);
+  return divElement;
 }
 
 function addTodayMoodDiv(myDate, imgSrc, mood) {
@@ -133,10 +134,44 @@ function addTodayMoodDiv(myDate, imgSrc, mood) {
   todayMoodElement.appendChild(pTag);
   todayMoodElement.classList.add("todayMood");
 
+  document.getElementById("mood-select-text").classList.add("hide");
   moodSubmitBtn.classList.remove("button-33");
   moodSubmitBtn.classList.add("hide");
   moodContainerElement.classList.remove("mood-select");
   moodContainerElement.classList.add("hide");
+}
+
+// Save mood to local storage
+function saveMoodToLocalStorage(moodItem) {
+  //Get the current mood items
+  const currentMoods = getMoodItemsFromLocalStorage();
+  //Add the new mood item
+  currentMoods.push(moodItem);
+  localStorage.setItem("moodItems", JSON.stringify(currentMoods));
+}
+
+//Get mood items for grid from local storage
+function getMoodItemsFromLocalStorage() {
+  const storedMoodItems = localStorage.getItem("moodItems");
+  return storedMoodItems ? JSON.parse(storedMoodItems) : [];
+}
+
+function createMoodGridItem(moodItem) {
+  const { mood, imgSrc, date } = moodItem;
+  const elementData = addItemToGrid(mood, imgSrc, date);
+  document.getElementById("all-modes").appendChild(elementData);
+}
+
+// Display mood items from local storage
+function displayMoodItems() {
+  const gridContainer = document.getElementById("all-modes");
+  gridContainer.innerHTML = "";
+
+  const moodItems = getMoodItemsFromLocalStorage();
+
+  moodItems.forEach((mood) => {
+    createMoodGridItem(mood);
+  });
 }
 
 // When submit the mood button
@@ -151,26 +186,39 @@ moodSubmitBtn.addEventListener("click", () => {
     imgSrc = "./assets/happy.png";
     mood = "happy";
     addTodayMoodDiv(date, imgSrc, mood);
-    addItemToGrid(mood, imgSrc, date);
+    // const elementData = addItemToGrid(mood, imgSrc, date);
+    const moodItem = { mood, imgSrc, date };
+    createMoodGridItem(moodItem);
+    saveMoodToLocalStorage(moodItem);
   } else if (sadInputElement.checked) {
     imgSrc = "./assets/sad.png";
     mood = "sad";
     addTodayMoodDiv(date, imgSrc, mood);
-    addItemToGrid(mood, imgSrc, date);
+    const moodItem = { mood, imgSrc, date };
+    createMoodGridItem(moodItem);
+    saveMoodToLocalStorage(moodItem);
   } else if (nutralInputElement.checked) {
     imgSrc = "./assets/nutral.png";
     mood = "neutral";
     addTodayMoodDiv(date, imgSrc, mood);
-    addItemToGrid(mood, imgSrc, date);
+    const moodItem = { mood, imgSrc, date };
+    createMoodGridItem(moodItem);
+    saveMoodToLocalStorage(moodItem);
   } else if (excitedInputElement.checked) {
     imgSrc = "./assets/excited.png";
     mood = "excited";
     addTodayMoodDiv(date, imgSrc, mood);
-    addItemToGrid(mood, imgSrc, date);
+    const moodItem = { mood, imgSrc, date };
+    createMoodGridItem(moodItem);
+    saveMoodToLocalStorage(moodItem);
   } else if (angryInputElement.checked) {
     imgSrc = "./assets/angry.png";
     mood = "angry";
     addTodayMoodDiv(date, imgSrc, mood);
-    addItemToGrid(mood, imgSrc, date);
+    const moodItem = { mood, imgSrc, date };
+    createMoodGridItem(moodItem);
+    saveMoodToLocalStorage(moodItem);
   }
 });
+
+displayMoodItems();
