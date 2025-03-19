@@ -110,12 +110,14 @@ h2 {
   align-items: center;
 }
 
-#all-modes {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
+.moods-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 100px);
+  grid-template-rows: repeat(5, 100px);
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
-  margin-top: 18px;
+  gap: 10px;
+  background-color: #e05b22;
+  padding: 10px;
+  margin: 20px 10px;
 }

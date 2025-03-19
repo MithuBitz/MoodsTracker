@@ -8,6 +8,8 @@ const moodContainerElement = document.getElementById("mood-container");
 const moodSubmitBtn = document.getElementById("submitMoodBtn");
 const todayMoodElement = document.getElementById("today-mood");
 
+const allMoodsGrid = document.getElementById("moods-cards");
+
 //User can select or checked only one mood for submit
 //When happy is checked
 happyInputElement.addEventListener("click", () => {
@@ -66,99 +68,91 @@ function getDate(myDate) {
   return myDate.toLocaleDateString(undefined, options);
 }
 
+// Add div into moods grid
+function addItemToGrid(moodText, imgPath, myDate) {
+  const image = document.createElement("img");
+  image.src = imgPath;
+  image.height = 50;
+  image.width = 50;
+  image.alt = moodText;
+
+  const h3Tag = document.createElement("h3");
+  h3Tag.textContent = moodText;
+
+  const pTag = document.createElement("p");
+  pTag.textContent = myDate;
+
+  allMoodsGrid.appendChild(image);
+  allMoodsGrid.appendChild(h3Tag);
+  allMoodsGrid.appendChild(pTag);
+}
+
+function addTodayMoodDiv(myDate, imgSrc, mood) {
+  let quotes = "";
+  if (mood === "happy") {
+    quotes =
+      "Happiness is not something ready-made. It comes from your own actions";
+  } else if (mood === "sad") {
+    quotes = "Sadness flies away on the wings of time";
+  } else if (mood === "neutral") {
+    quotes = "Don not let yesterday take up too much of today. Just be";
+  } else if (mood === "excited") {
+    quotes = "The world belongs to those who are excited to make it better.";
+  } else if (mood === "angry") {
+    quotes =
+      "For every minute you remain angry, you give up sixty seconds of peace of mind";
+  }
+
+  const h3Element = document.createElement("h3");
+  h3Element.textContent = "Your Today Mood";
+
+  const pElement = document.createElement("p");
+  pElement.textContent = myDate;
+
+  const image = document.createElement("img");
+  image.src = imgSrc;
+  image.height = 50;
+  image.width = 50;
+  image.alt = mood;
+
+  const pTag = document.createElement("p");
+  pTag.textContent = quotes;
+  todayMoodElement.classList.remove("hide");
+  todayMoodElement.appendChild(h3Element);
+  todayMoodElement.appendChild(pElement);
+  todayMoodElement.appendChild(image);
+  todayMoodElement.appendChild(pTag);
+  todayMoodElement.classList.add("todayMood");
+}
+
 // When submit the mood button
 moodSubmitBtn.addEventListener("click", () => {
   const now = new Date();
+  const date = getDate(now);
+
+  let imgSrc = "";
+  let mood = "";
 
   if (happyInputElement.checked) {
-    const h3Element = document.createElement("h3");
-    h3Element.textContent = "Your Today Mood";
-
-    const h4Element = document.createElement("h4");
-    h4Element.textContent = getDate(now);
-
-    const image = document.createElement("img");
-    image.src = "./assets/happy.png";
-    image.height = 50;
-    image.width = 50;
-    image.alt = "happy";
-
-    const pTag = document.createElement("p");
-    pTag.textContent =
-      "Happiness is not something ready-made. It comes from your own actions";
-    todayMoodElement.classList.remove("hide");
-    todayMoodElement.appendChild(h3Element);
-    todayMoodElement.appendChild(image);
-    todayMoodElement.appendChild(pTag);
-    todayMoodElement.appendChild(h4Element);
-    todayMoodElement.classList.add("todayMood");
+    imgSrc = "./assets/happy.png";
+    mood = "happy";
+    addTodayMoodDiv(date, imgSrc, mood);
   } else if (sadInputElement.checked) {
-    const h3Element = document.createElement("h3");
-    h3Element.textContent = "Your Today Mood";
-
-    const image = document.createElement("img");
-    image.src = "./assets/sad.png";
-    image.height = 50;
-    image.width = 50;
-    image.alt = "sad";
-
-    const pTag = document.createElement("p");
-    pTag.textContent = "Sadness flies away on the wings of time";
-    todayMoodElement.classList.remove("hide");
-    todayMoodElement.appendChild(h3Element);
-    todayMoodElement.appendChild(image);
-    todayMoodElement.appendChild(pTag);
+    imgSrc = "./assets/sad.png";
+    mood = "sad";
+    addTodayMoodDiv(date, imgSrc, mood);
   } else if (nutralInputElement.checked) {
-    const h3Element = document.createElement("h3");
-    h3Element.textContent = "Your Today Mood";
-
-    const image = document.createElement("img");
-    image.src = "./assets/nutral.png";
-    image.height = 50;
-    image.width = 50;
-    image.alt = "neutral";
-
-    const pTag = document.createElement("p");
-    pTag.textContent =
-      "Don not let yesterday take up too much of today. Just be";
-    todayMoodElement.classList.remove("hide");
-    todayMoodElement.appendChild(h3Element);
-    todayMoodElement.appendChild(image);
-    todayMoodElement.appendChild(pTag);
+    imgSrc = "./assets/nutral.png";
+    mood = "neutral";
+    addTodayMoodDiv(date, imgSrc, mood);
   } else if (excitedInputElement.checked) {
-    const h3Element = document.createElement("h3");
-    h3Element.textContent = "Your Today Mood";
-
-    const image = document.createElement("img");
-    image.src = "./assets/excited.png";
-    image.height = 50;
-    image.width = 50;
-    image.alt = "excited";
-
-    const pTag = document.createElement("p");
-    pTag.textContent =
-      "The world belongs to those who are excited to make it better.";
-    todayMoodElement.classList.remove("hide");
-    todayMoodElement.appendChild(h3Element);
-    todayMoodElement.appendChild(image);
-    todayMoodElement.appendChild(pTag);
+    imgSrc = "./assets/excited.png";
+    mood = "excited";
+    addTodayMoodDiv(date, imgSrc, mood);
   } else if (angryInputElement.checked) {
-    const h3Element = document.createElement("h3");
-    h3Element.textContent = "Your Today Mood";
-
-    const image = document.createElement("img");
-    image.src = "./assets/angry.png";
-    image.height = 50;
-    image.width = 50;
-    image.alt = "angry";
-
-    const pTag = document.createElement("p");
-    pTag.textContent =
-      "For every minute you remain angry, you give up sixty seconds of peace of mind";
-    todayMoodElement.classList.remove("hide");
-    todayMoodElement.appendChild(h3Element);
-    todayMoodElement.appendChild(image);
-    todayMoodElement.appendChild(pTag);
+    imgSrc = "./assets/angry.png";
+    mood = "angry";
+    addTodayMoodDiv(date, imgSrc, mood);
   }
   moodSubmitBtn.classList.remove("button-33");
   moodSubmitBtn.classList.add("hide");
