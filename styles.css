@@ -1,0 +1,35 @@
+h1 {
+  text-align: center;
+  font-size: 40px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 30px;
+}
+
+#mood-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+}
+
+.today-mood-class {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#all-modes {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  margin-top: 18px;
+}
