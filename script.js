@@ -70,6 +70,10 @@ function getDate(myDate) {
 
 // Add div into moods grid
 function addItemToGrid(moodText, imgPath, myDate) {
+  console.log("Add item to grid clicked");
+
+  const divElement = document.createElement("div");
+
   const image = document.createElement("img");
   image.src = imgPath;
   image.height = 50;
@@ -78,13 +82,18 @@ function addItemToGrid(moodText, imgPath, myDate) {
 
   const h3Tag = document.createElement("h3");
   h3Tag.textContent = moodText;
+  h3Tag.style.textTransform = "capitalize";
 
   const pTag = document.createElement("p");
   pTag.textContent = myDate;
 
-  allMoodsGrid.appendChild(image);
-  allMoodsGrid.appendChild(h3Tag);
-  allMoodsGrid.appendChild(pTag);
+  divElement.appendChild(image);
+  divElement.appendChild(h3Tag);
+  divElement.appendChild(pTag);
+  divElement.classList.add("grid-items");
+  // console.log(divElement);
+
+  document.getElementById("all-modes").appendChild(divElement);
 }
 
 function addTodayMoodDiv(myDate, imgSrc, mood) {
@@ -123,6 +132,11 @@ function addTodayMoodDiv(myDate, imgSrc, mood) {
   todayMoodElement.appendChild(image);
   todayMoodElement.appendChild(pTag);
   todayMoodElement.classList.add("todayMood");
+
+  moodSubmitBtn.classList.remove("button-33");
+  moodSubmitBtn.classList.add("hide");
+  moodContainerElement.classList.remove("mood-select");
+  moodContainerElement.classList.add("hide");
 }
 
 // When submit the mood button
@@ -137,25 +151,26 @@ moodSubmitBtn.addEventListener("click", () => {
     imgSrc = "./assets/happy.png";
     mood = "happy";
     addTodayMoodDiv(date, imgSrc, mood);
+    addItemToGrid(mood, imgSrc, date);
   } else if (sadInputElement.checked) {
     imgSrc = "./assets/sad.png";
     mood = "sad";
     addTodayMoodDiv(date, imgSrc, mood);
+    addItemToGrid(mood, imgSrc, date);
   } else if (nutralInputElement.checked) {
     imgSrc = "./assets/nutral.png";
     mood = "neutral";
     addTodayMoodDiv(date, imgSrc, mood);
+    addItemToGrid(mood, imgSrc, date);
   } else if (excitedInputElement.checked) {
     imgSrc = "./assets/excited.png";
     mood = "excited";
     addTodayMoodDiv(date, imgSrc, mood);
+    addItemToGrid(mood, imgSrc, date);
   } else if (angryInputElement.checked) {
     imgSrc = "./assets/angry.png";
     mood = "angry";
     addTodayMoodDiv(date, imgSrc, mood);
+    addItemToGrid(mood, imgSrc, date);
   }
-  moodSubmitBtn.classList.remove("button-33");
-  moodSubmitBtn.classList.add("hide");
-  moodContainerElement.classList.remove("mood-select");
-  moodContainerElement.classList.add("hide");
 });
