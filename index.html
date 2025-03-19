@@ -7,51 +7,57 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="select-moods">
+    <div class="app-container">
       <h1>😉Mood Tracker🧐</h1>
       <h2>Select Your Mood 👇</h2>
       <div id="mood-container">
-        <div>
+        <label id="happy-mood">
+          <input id="happy-input" type="checkbox" name="happy" />
           <img
             style="width: 60px; height: 60px"
             src="./assets/happy.png"
             alt="happy"
           />
           <p>Happy</p>
-        </div>
-        <div>
+        </label>
+        <label id="sad-mood">
+          <input id="sad-input" type="checkbox" name="sad" />
           <img
             style="width: 60px; height: 60px"
-            src="./assets/happy.png"
-            alt="happy"
+            src="./assets/sad.png"
+            alt="sad"
           />
-          <p>Happy</p>
-        </div>
-        <div>
+          <p>Sad</p>
+        </label>
+        <label id="nutral-mood">
+          <input id="nutral-input" type="checkbox" name="nutral" />
           <img
             style="width: 60px; height: 60px"
-            src="./assets/happy.png"
-            alt="happy"
+            src="./assets/nutral.png"
+            alt="nutral"
           />
-          <p>Happy</p>
-        </div>
-        <div>
+          <p>Nutral</p>
+        </label>
+        <label id="excited-mood">
+          <input id="excited-input" type="checkbox" name="excited" />
           <img
             style="width: 60px; height: 60px"
-            src="./assets/happy.png"
-            alt="happy"
+            src="./assets/excited.png"
+            alt="excited"
           />
-          <p>Happy</p>
-        </div>
-        <div>
+          <p>Excited</p>
+        </label>
+        <label id="angry-mood">
+          <input id="angry-input" type="checkbox" name="angry" />
           <img
             style="width: 60px; height: 60px"
-            src="./assets/happy.png"
-            alt="happy"
+            src="./assets/angry.png"
+            alt="angry"
           />
-          <p>Happy</p>
-        </div>
+          <p>Angry</p>
+        </label>
       </div>
+      <button id="submitMoodBtn" class="button-33" role="button">Submit</button>
       <div id="today-mood" style="display: none">
         <h3>Your Today mood</h3>
         <img
