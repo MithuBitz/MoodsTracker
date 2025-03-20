@@ -176,6 +176,21 @@ function createMoodGridItem(moodItem) {
 
 // Display mood items from local storage
 function displayMoodItems() {
+  // const gridContainer = document.getElementById("all-modes");
+  // gridContainer.innerHTML = "";
+
+  // const moodItems = getMoodItemsFromLocalStorage();
+
+  // if (moodItems.length === 0) {
+  //   allMoodsGrid.classList.remove("moods-grid");
+  //   allMoodsGrid.classList.add("hide");
+  //   return;
+  // }
+  // moodItems.forEach((mood) => {
+  //   allMoodsGrid.classList.remove("hide");
+  //   allMoodsGrid.classList.add("moods-grid");
+  //   createMoodGridItem(mood);
+  // });
   const gridContainer = document.getElementById("all-modes");
   gridContainer.innerHTML = "";
 
@@ -186,7 +201,20 @@ function displayMoodItems() {
     allMoodsGrid.classList.add("hide");
     return;
   }
-  moodItems.forEach((mood) => {
+
+  // Sort mood items by time, most recent first
+  const sortedMoodItems = moodItems.sort((a, b) => {
+    const dateA = new Date(
+      `${a.date} ${a.time.hour}:${a.time.minutes}:${a.time.seconds} ${a.time.amNpm}`
+    );
+    const dateB = new Date(
+      `${b.date} ${b.time.hour}:${b.time.minutes}:${b.time.seconds} ${b.time.amNpm}`
+    );
+    return dateB - dateA; // Sort by descending order
+  });
+
+  // Render sorted items
+  sortedMoodItems.forEach((mood) => {
     allMoodsGrid.classList.remove("hide");
     allMoodsGrid.classList.add("moods-grid");
     createMoodGridItem(mood);
@@ -256,6 +284,7 @@ moodSubmitBtn.addEventListener("click", () => {
     saveMoodToLocalStorage(moodItem);
   }
 
+  displayMoodItems();
   document.getElementById("reSubmitMoodBtn").classList.add("button-33");
 });
 
