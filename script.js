@@ -255,6 +255,12 @@ moodSubmitBtn.addEventListener("click", () => {
     createMoodGridItem(moodItem);
     saveMoodToLocalStorage(moodItem);
   }
+
+  document.getElementById("reSubmitMoodBtn").classList.add("button-33");
 });
+
+document
+  .getElementById("reSubmitMoodBtn")
+  .addEventListener("click", () => window.location.reload());
 
 displayMoodItems();
