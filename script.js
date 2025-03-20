@@ -69,7 +69,7 @@ function getDate(myDate) {
 }
 
 // Add div into moods grid
-function addItemToGrid(moodText, imgPath, myDate) {
+function addItemToGrid(moodText, imgPath, myDate, time) {
   console.log("Add item to grid clicked");
 
   const divElement = document.createElement("div");
@@ -86,10 +86,13 @@ function addItemToGrid(moodText, imgPath, myDate) {
 
   const pTag = document.createElement("p");
   pTag.textContent = myDate;
+  const timeElement = document.createElement("p");
+  timeElement.textContent = `${time.hour}:${time.minutes}:${time.seconds} ${time.amNpm}`;
 
   divElement.appendChild(image);
   divElement.appendChild(h3Tag);
   divElement.appendChild(pTag);
+  divElement.appendChild(timeElement);
   divElement.classList.add("grid-items");
   // console.log(divElement);
   // document.getElementById("all-modes").appendChild(divElement);
@@ -97,7 +100,9 @@ function addItemToGrid(moodText, imgPath, myDate) {
   return divElement;
 }
 
-function addTodayMoodDiv(myDate, imgSrc, mood) {
+function addTodayMoodDiv(myDate, imgSrc, mood, time) {
+  console.log(time);
+
   let quotes = "";
   if (mood === "happy") {
     quotes =
@@ -118,6 +123,10 @@ function addTodayMoodDiv(myDate, imgSrc, mood) {
 
   const pElement = document.createElement("p");
   pElement.textContent = myDate;
+  pElement.classList.add("timeDateStyle");
+  const timeElement = document.createElement("p");
+  timeElement.textContent = `${time.hour}:${time.minutes}:${time.seconds} ${time.amNpm}`;
+  timeElement.classList.add("timeDateStyle");
 
   const image = document.createElement("img");
   image.src = imgSrc;
@@ -130,9 +139,10 @@ function addTodayMoodDiv(myDate, imgSrc, mood) {
   todayMoodElement.classList.remove("hide");
   todayMoodElement.appendChild(h3Element);
   todayMoodElement.appendChild(pElement);
+  todayMoodElement.appendChild(timeElement);
   todayMoodElement.appendChild(image);
   todayMoodElement.appendChild(pTag);
-  todayMoodElement.classList.add("todayMood");
+  todayMoodElement.classList.add("today-mood-class");
 
   document.getElementById("mood-select-text").classList.add("hide");
   moodSubmitBtn.classList.remove("button-33");
@@ -157,8 +167,10 @@ function getMoodItemsFromLocalStorage() {
 }
 
 function createMoodGridItem(moodItem) {
-  const { mood, imgSrc, date } = moodItem;
-  const elementData = addItemToGrid(mood, imgSrc, date);
+  const { mood, imgSrc, date, time } = moodItem;
+  const elementData = addItemToGrid(mood, imgSrc, date, time);
+  allMoodsGrid.classList.remove("hide");
+  allMoodsGrid.classList.add("moods-grid");
   document.getElementById("all-modes").appendChild(elementData);
 }
 
@@ -169,15 +181,39 @@ function displayMoodItems() {
 
   const moodItems = getMoodItemsFromLocalStorage();
 
+  if (moodItems.length === 0) {
+    allMoodsGrid.classList.remove("moods-grid");
+    allMoodsGrid.classList.add("hide");
+    return;
+  }
   moodItems.forEach((mood) => {
+    allMoodsGrid.classList.remove("hide");
+    allMoodsGrid.classList.add("moods-grid");
     createMoodGridItem(mood);
   });
+}
+
+// get the time with am and pm
+function getTimeWithAmPm(now) {
+  let hour = now.getHours() % 12 || 12;
+
+  let minutes = now.getMinutes().toString().padStart(2, "0");
+  //   console.log(minutes);
+
+  let seconds = now.getSeconds().toString().padStart(2, "0");
+  //   console.log(seconds);
+
+  let amNpm = now.getHours() > 12 ? "PM" : "AM";
+
+  return { hour, minutes, seconds, amNpm };
 }
 
 // When submit the mood button
 moodSubmitBtn.addEventListener("click", () => {
   const now = new Date();
   const date = getDate(now);
+  const time = getTimeWithAmPm(now);
+  console.log(time);
 
   let imgSrc = "";
   let mood = "";
@@ -185,37 +221,37 @@ moodSubmitBtn.addEventListener("click", () => {
   if (happyInputElement.checked) {
     imgSrc = "./assets/happy.png";
     mood = "happy";
-    addTodayMoodDiv(date, imgSrc, mood);
+    addTodayMoodDiv(date, imgSrc, mood, time);
     // const elementData = addItemToGrid(mood, imgSrc, date);
-    const moodItem = { mood, imgSrc, date };
+    const moodItem = { mood, imgSrc, date, time };
     createMoodGridItem(moodItem);
     saveMoodToLocalStorage(moodItem);
   } else if (sadInputElement.checked) {
     imgSrc = "./assets/sad.png";
     mood = "sad";
-    addTodayMoodDiv(date, imgSrc, mood);
-    const moodItem = { mood, imgSrc, date };
+    addTodayMoodDiv(date, imgSrc, mood, time);
+    const moodItem = { mood, imgSrc, date, time };
     createMoodGridItem(moodItem);
     saveMoodToLocalStorage(moodItem);
   } else if (nutralInputElement.checked) {
     imgSrc = "./assets/nutral.png";
     mood = "neutral";
-    addTodayMoodDiv(date, imgSrc, mood);
-    const moodItem = { mood, imgSrc, date };
+    addTodayMoodDiv(date, imgSrc, mood, time);
+    const moodItem = { mood, imgSrc, date, time };
     createMoodGridItem(moodItem);
     saveMoodToLocalStorage(moodItem);
   } else if (excitedInputElement.checked) {
     imgSrc = "./assets/excited.png";
     mood = "excited";
-    addTodayMoodDiv(date, imgSrc, mood);
-    const moodItem = { mood, imgSrc, date };
+    addTodayMoodDiv(date, imgSrc, mood, time);
+    const moodItem = { mood, imgSrc, date, time };
     createMoodGridItem(moodItem);
     saveMoodToLocalStorage(moodItem);
   } else if (angryInputElement.checked) {
     imgSrc = "./assets/angry.png";
     mood = "angry";
-    addTodayMoodDiv(date, imgSrc, mood);
-    const moodItem = { mood, imgSrc, date };
+    addTodayMoodDiv(date, imgSrc, mood, time);
+    const moodItem = { mood, imgSrc, date, time };
     createMoodGridItem(moodItem);
     saveMoodToLocalStorage(moodItem);
   }
